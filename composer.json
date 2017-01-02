@@ -1,5 +1,6 @@
 {
     "name": "root/backup-s3",
+    "description": "backToS3",
     "authors": [
         {
             "name": "jhon50",
@@ -8,5 +9,10 @@
     ],
     "require": {
         "aws/aws-sdk-php": "^3.20"
+    },
+    "autoload": {
+        "psr-4": {
+            "Setra\\" : "src"
+        }
     }
 }

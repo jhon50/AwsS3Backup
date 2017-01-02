@@ -4,6 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/vendor/andrewsville/php-token-reflection" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/aws/aws-php-sns-message-validator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/aws/aws-sdk-php" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/behat/behat" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/behat/gherkin" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/behat/transliterator" />
@@ -54,5 +55,27 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="PHP">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/aws/aws-sdk-php" />
+          <root url="file://$MODULE_DIR$/vendor/composer" />
+          <root url="file://$MODULE_DIR$/vendor/guzzlehttp/guzzle" />
+          <root url="file://$MODULE_DIR$/vendor/guzzlehttp/promises" />
+          <root url="file://$MODULE_DIR$/vendor/guzzlehttp/psr7" />
+          <root url="file://$MODULE_DIR$/vendor/mtdowling/jmespath.php" />
+          <root url="file://$MODULE_DIR$/vendor/psr/http-message" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/aws/aws-sdk-php" />
+          <root url="file://$MODULE_DIR$/vendor/composer" />
+          <root url="file://$MODULE_DIR$/vendor/guzzlehttp/guzzle" />
+          <root url="file://$MODULE_DIR$/vendor/guzzlehttp/promises" />
+          <root url="file://$MODULE_DIR$/vendor/guzzlehttp/psr7" />
+          <root url="file://$MODULE_DIR$/vendor/mtdowling/jmespath.php" />
+          <root url="file://$MODULE_DIR$/vendor/psr/http-message" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

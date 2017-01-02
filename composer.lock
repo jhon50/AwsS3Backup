@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "dc1ac1cf6fab079bacb6cff6b5c934ea",
+    "hash": "606f49377e7526a026910a919def921e",
     "content-hash": "07404378218e7c073cba7d7f677687e4",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.20.8",
+            "version": "3.20.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0e868349a6d834050f273540a8cb811bb7f6d1b7"
+                "reference": "b0d6f5694a6effb2f0c622b42a5c7bffb8949d04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0e868349a6d834050f273540a8cb811bb7f6d1b7",
-                "reference": "0e868349a6d834050f273540a8cb811bb7f6d1b7",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b0d6f5694a6effb2f0c622b42a5c7bffb8949d04",
+                "reference": "b0d6f5694a6effb2f0c622b42a5c7bffb8949d04",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +85,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2016-12-19 23:13:56"
+            "time": "2016-12-20 23:41:34"
         },
         {
             "name": "guzzlehttp/guzzle",
