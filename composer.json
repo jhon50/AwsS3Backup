@@ -1,18 +1,18 @@
 {
-    "name": "root/backup-s3",
-    "description": "backToS3",
-    "authors": [
-        {
-            "name": "jhon50",
-            "email": "johnn_lds@hotmail.com"
-        }
-    ],
-    "require": {
-        "aws/aws-sdk-php": "^3.20"
-    },
-    "autoload": {
-        "psr-4": {
-            "Setra\\" : "src"
-        }
+  "name": "root/backup-s3",
+  "description": "backToS3",
+  "authors": [
+    {
+      "name": "jhon50",
+      "email": "johnn_lds@hotmail.com"
     }
+  ],
+  "require": {
+    "aws/aws-sdk-php": "^3.20"
+  },
+  "autoload": {
+    "psr-4": {
+      "Setra\\" : "src"
+    }
+  }
 }

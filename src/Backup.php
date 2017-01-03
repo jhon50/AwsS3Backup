@@ -8,20 +8,67 @@ use Exception;
 
 class Backup
 {
-    public function main()
+    private $configuracao;
+    private $dump;
+
+    public function __construct(Configuracao $configuracao)
     {
-        $this->uploadToS3("/home/desenvolvedor/PhpstormProjects/AwsS3Backup/composer.json", "Backup.php");
+        $this->configuracao = $configuracao;
+        $this->dump = $this->configuracao->getBySection("dump");
     }
 
-    public function uploadToS3($origem, $destino)
+    public function sendToS3()
+    {
+        // Retrieve current DateTime
+        $now = date("Y-m-d H:i:s");
+
+        // Upload file from (directory) to (remote file name)
+        $this->uploadFileToS3("/home/desenvolvedor/PhpstormProjects/AwsS3Backup/dump.bz2", "{$this->dump['nome_dump']}-{$now}");
+    }
+
+    /* Why use this? Provavelmente para capturar erro de execucao de SQL */
+    private function exec($comando)
+    {
+        $retorno = null;
+        system($comando, $retorno);
+        if ($retorno !== 0) {
+            throw new Exception("Ocorreu um erro ao executar o comando: {$comando}");
+        }
+        return true;
+    }
+
+    public function createDump()
+    {
+        // Dados de conexão do mysql
+        $dbConn = $this->configuracao->getBySection("mysql");
+        // Nome do banco de dados
+        $dbName = $this->configuracao->getBySection("database");
+
+        $senha = addslashes($dbConn['senha']);
+        $query = "mysqldump -u {$dbConn['usuario']} -p\"{$senha}\" {$dbName['nome_banco']}";
+        $query .= " | bzip2 > dump.bz2";
+        $this->exec($query);
+        return $this;
+    }
+
+    public function removeDump()
+    {
+        $comando = "rm dump*";
+        return $this->exec($comando);
+    }
+
+    public function uploadFileToS3($origem, $destino)
     {
         //why is this like this???
         $pr = CredentialProvider::ini("default", realpath(dirname(__FILE__) . "/../") . "/config/credentials.ini");
         $provider = CredentialProvider::memoize($pr);
 
+        /* Pega a section no arquivo config.ini */
+        $s3 = $this->configuracao->getBySection("s3");
+
         $config = [
-            'region' => 'us-west-2',
-            'version' => '2006-03-01',
+            'region' => $s3['regiao'],
+            'version' => $s3['versao'],
             'credentials' => $provider
         ];
 
@@ -30,7 +77,7 @@ class Backup
         $client = $sdk->createS3();
 
         $client->putObject([
-            'Bucket' => 'hexabackups',
+            'Bucket' => $s3['bucket'],
             'SourceFile' => $origem,
 
             /* Nome do arquivo a ser salvo no servidor */
