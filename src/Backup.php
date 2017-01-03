@@ -9,12 +9,14 @@ use Exception;
 class Backup
 {
     private $configuracao;
-    private $dump;
+    private $dbName;
+    private $dbConn;
 
     public function __construct(Configuracao $configuracao)
     {
         $this->configuracao = $configuracao;
-        $this->dump = $this->configuracao->getBySection("dump");
+        $this->dbConn = $this->configuracao->getBySection("mysql");
+        $this->dbName = $this->configuracao->getBySection("database");
     }
 
     public function sendToS3()
@@ -23,10 +25,10 @@ class Backup
         $now = date("Y-m-d H:i:s");
 
         // Upload file from (directory) to (remote file name)
-        $this->uploadFileToS3("/home/desenvolvedor/PhpstormProjects/AwsS3Backup/dump.bz2", "{$this->dump['nome_dump']}-{$now}");
+        $this->uploadFileToS3("/home/desenvolvedor/PhpstormProjects/AwsS3Backup/dump.bz2", "setrapedia/{$this->dbName['nome_dump']}-{$now}");
     }
 
-    /* Why use this? Provavelmente para capturar erro de execucao de SQL */
+    /* Why use this? execute console command??*/
     private function exec($comando)
     {
         $retorno = null;
@@ -39,13 +41,8 @@ class Backup
 
     public function createDump()
     {
-        // Dados de conexão do mysql
-        $dbConn = $this->configuracao->getBySection("mysql");
-        // Nome do banco de dados
-        $dbName = $this->configuracao->getBySection("database");
-
-        $senha = addslashes($dbConn['senha']);
-        $query = "mysqldump -u {$dbConn['usuario']} -p\"{$senha}\" {$dbName['nome_banco']}";
+        $senha = addslashes($this->dbConn['senha']);
+        $query = "mysqldump -u {$this->dbConn['usuario']} -p\"{$senha}\" {$this->dbName['nome_banco']}";
         $query .= " | bzip2 > dump.bz2";
         $this->exec($query);
         return $this;
@@ -73,9 +70,7 @@ class Backup
         ];
 
         $sdk = new Sdk($config);
-
         $client = $sdk->createS3();
-
         $client->putObject([
             'Bucket' => $s3['bucket'],
             'SourceFile' => $origem,

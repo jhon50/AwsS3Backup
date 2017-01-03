@@ -7,5 +7,5 @@ $configuracao = new Configuracao();
 $backup = new Backup($configuracao);
 $backup->createDump();
 $backup->sendToS3();
-
-echo var_dump($backup);
+$backup->removeDump();
+echo "sucesso!";
