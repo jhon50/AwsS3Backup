@@ -25,7 +25,7 @@ class Backup
         $now = date("Y-m-d H:i:s");
 
         // Upload file from (directory) to (remote file name)
-        $this->uploadFileToS3("/home/desenvolvedor/PhpstormProjects/AwsS3Backup/dump.bz2", "setrapedia/{$this->dbName['nome_dump']}-{$now}");
+        $this->uploadFileToS3("/tmp/setrapedia/dump.bz2", "setrapedia/{$this->dbName['nome_dump']}-{$now}");
     }
 
     /* Why use this? execute console command??*/
@@ -43,14 +43,14 @@ class Backup
     {
         $senha = addslashes($this->dbConn['senha']);
         $query = "mysqldump -u {$this->dbConn['usuario']} -p\"{$senha}\" {$this->dbName['nome_banco']}";
-        $query .= " | bzip2 > dump.bz2";
+        $query .= " | bzip2 > /tmp/setrapedia/dump.bz2";
         $this->exec($query);
         return $this;
     }
 
     public function removeDump()
     {
-        $comando = "rm dump*";
+        $comando = "rm -f /tmp/setrapedia/dump*";
         return $this->exec($comando);
     }
 
