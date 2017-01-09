@@ -56,7 +56,6 @@ class Backup
 
     public function uploadFileToS3($origem, $destino)
     {
-        //why is this like this???
         $pr = CredentialProvider::ini("default", realpath(dirname(__FILE__) . "/../") . "/config/credentials.ini");
         $provider = CredentialProvider::memoize($pr);
 
