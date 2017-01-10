@@ -25,11 +25,13 @@ class Backup
         $now = date("Y-m-d-H:i:s");
 
         // Upload file from (directory) to (remote file name)
-        $this->uploadFileToS3("/tmp/setrapedia/dump.bz2", "setrapedia/{$this->dbName['nome_dump']}-{$now}");
+        $this->uploadFileToS3("/tmp/setrapedia/dump.bz2", "setrapedia/{$this->dbName['nome_dump']}-{$now}.bz2");
     }
 
     public function createDirectoryIfDoesntExist(){
-        mkdir('/tmp/setrapedia');
+        if(file_exists('/tmp/setrapedia')){
+            mkdir('/tmp/setrapedia');
+        }
     }
 
     /* Why use this? execute console command??*/
