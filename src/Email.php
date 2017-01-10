@@ -25,8 +25,8 @@ class Email
         $mail->Password = $this->SMTP['password'];
         $mail->SMTPSecure = $this->SMTP['secure'];
         $mail->Port = $this->SMTP['port'];
-        $mail->setFrom('setrasolucoes2015@gmail.com', 'Mailer');
-        $mail->addAddress('washigton@setrasolucoes.com.br', 'Joe User');
+        $mail->setFrom($this->SMTP['from'], 'Mailer');
+        $mail->addAddress($this->SMTP['to'], 'Joe User');
         $mail->isHTML(true);                                  // Set email format to HTML
 
         $mail->Subject = 'Notificação de Backup Setrapedia';

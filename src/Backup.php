@@ -28,6 +28,10 @@ class Backup
         $this->uploadFileToS3("/tmp/setrapedia/dump.bz2", "setrapedia/{$this->dbName['nome_dump']}-{$now}");
     }
 
+    public function createDirectoryIfDoesntExist(){
+        mkdir('/tmp/setrapedia');
+    }
+
     /* Why use this? execute console command??*/
     private function exec($comando)
     {

@@ -9,6 +9,7 @@ $backup = new Backup($configuracao);
 $notifier = new Email($configuracao);
 
 try {
+    $backup->createDirectoryIfDoesntExist();
     $backup->createDump();
     $backup->sendToS3();
     $backup->removeDump();
