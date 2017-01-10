@@ -22,7 +22,7 @@ class Backup
     public function sendToS3()
     {
         // Retrieve current DateTime
-        $now = date("Y-m-d H:i:s");
+        $now = date("Y-m-d-H:i:s");
 
         // Upload file from (directory) to (remote file name)
         $this->uploadFileToS3("/tmp/setrapedia/dump.bz2", "setrapedia/{$this->dbName['nome_dump']}-{$now}");
