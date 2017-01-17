@@ -10,9 +10,9 @@ $notifier = new Email($configuracao);
 
 try {
     $backup->createDirectoryIfDoesntExist();
-    $backup->createDump();
+    $backup->createTemp();
     $backup->sendToS3();
-    $backup->removeDump();
+    $backup->removeTemp();
     $notifier->sendEmail("Backup realizado com sucesso!");
 }catch (Exception $e){
     $notifier->sendEmail("Erro ao realizar backup!");

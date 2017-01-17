@@ -11,26 +11,28 @@ class Backup
     private $configuracao;
     private $dbName;
     private $dbConn;
+    private $directory;
 
     public function __construct(Configuracao $configuracao)
     {
         $this->configuracao = $configuracao;
         $this->dbConn = $this->configuracao->getBySection("mysql");
         $this->dbName = $this->configuracao->getBySection("database");
+        $this->directory = $this->configuracao->getBySection("directory");
     }
 
     public function sendToS3()
     {
         // Retrieve current DateTime
-        $now = date("Y-m-d-H:i:s");
+        $now = date("Y-m-d-H-i-s");
 
         // Upload file from (directory) to (remote file name)
-        $this->uploadFileToS3("/tmp/setrapedia/dump.bz2", "setrapedia/{$this->dbName['nome_dump']}-{$now}.bz2");
+        $this->uploadFileToS3("{$this->directory['source']}/dump.bz2", "{$this->directory['destination']}/{$this->dbName['nome_dump']}-{$now}.bz2");
     }
 
     public function createDirectoryIfDoesntExist(){
-        if(file_exists('/tmp/setrapedia')){
-            mkdir('/tmp/setrapedia');
+        if(!file_exists($this->directory['source'])){
+            mkdir($this->directory['source']);
         }
     }
 
@@ -45,18 +47,18 @@ class Backup
         return true;
     }
 
-    public function createDump()
+    public function createTemp()
     {
         $senha = addslashes($this->dbConn['senha']);
         $query = "mysqldump -u {$this->dbConn['usuario']} -p\"{$senha}\" {$this->dbName['nome_banco']}";
-        $query .= " | bzip2 > /tmp/setrapedia/dump.bz2";
+        $query .= " | bzip2 > {$this->directory['source']}/dump.bz2";
         $this->exec($query);
         return $this;
     }
 
-    public function removeDump()
+    public function removeTemp()
     {
-        $comando = "rm -f /tmp/setrapedia/dump*";
+        $comando = "rm -rf {$this->directory['source']}";
         return $this->exec($comando);
     }
 
