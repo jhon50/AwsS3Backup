@@ -9,36 +9,34 @@ use PHPMailer;
 class Email
 {
     private $SMTP;
+    private $mail;
 
     public function __construct(Configuracao $configuracao)
     {
         $this->SMTP = $configuracao->getBySection("smtp");
+        $this->configSMTP();
     }
 
-    public function sendEmail($message){
-        $mail = new PHPMailer;
-        $mail->SMTPDebug = 0;
-        $mail->isSMTP();
-        $mail->Host = $this->SMTP['host'];
-        $mail->SMTPAuth = true;
-        $mail->Username = $this->SMTP['username'];
-        $mail->Password = $this->SMTP['password'];
-        $mail->SMTPSecure = $this->SMTP['secure'];
-        $mail->Port = $this->SMTP['port'];
-        $mail->setFrom($this->SMTP['from'], 'Mailer');
-        $mail->addAddress($this->SMTP['to'], 'Joe User');
-        $mail->isHTML(true);                                  // Set email format to HTML
-
-        $mail->Subject = 'Notificação de Backup Setrapedia';
-        $mail->Body    = $message;
-        //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-        if(!$mail->send()) {
-            echo 'Message could not be sent.';
-            echo 'Mailer Error: ' . $mail->ErrorInfo;
-        } else {
-            echo 'Message has been sent';
-        }
+    protected function configSMTP()
+    {
+        $this->mail = new PHPMailer;
+        $this->mail->SMTPDebug = 0;
+        $this->mail->isSMTP();
+        $this->mail->Host = $this->SMTP['host'];
+        $this->mail->SMTPAuth = true;
+        $this->mail->Username = $this->SMTP['username'];
+        $this->mail->Password = $this->SMTP['password'];
+        $this->mail->SMTPSecure = $this->SMTP['secure'];
+        $this->mail->Port = $this->SMTP['port'];
+        $this->mail->setFrom($this->SMTP['from'], 'Mailer');
+        $this->mail->addAddress($this->SMTP['to'], 'Joe User');
+        $this->mail->isHTML(true);
     }
 
+    public function sendEmail($message, $status)
+    {
+        $this->mail->Subject = $status;
+        $this->mail->Body = $message;
+        return $this->mail->send();
+    }
 }
