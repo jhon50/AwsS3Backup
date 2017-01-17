@@ -28,8 +28,8 @@ class Email
         $this->mail->Password = $this->SMTP['password'];
         $this->mail->SMTPSecure = $this->SMTP['secure'];
         $this->mail->Port = $this->SMTP['port'];
-        $this->mail->setFrom($this->SMTP['from'], 'Mailer');
-        $this->mail->addAddress($this->SMTP['to'], 'Joe User');
+        $this->mail->setFrom($this->SMTP['from']);
+        $this->mail->addAddress($this->SMTP['to']);
         $this->mail->isHTML(true);
     }
 
